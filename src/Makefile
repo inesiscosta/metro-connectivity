@@ -2,14 +2,12 @@ CXX = g++
 CXXFLAGS = -std=c++11 -O3 -Wall -lm
 SHELL := /bin/bash
 
-.PHONY: all run format test new_tests time graph excel clean rm
+.PHONY: all run format test new_tests time clean rm
 
 TARGET = main
 SRCS = main.cpp
 TEST_PATH = ../tests
 TEST_GENERATOR_PATH = $(TEST_PATH)/test_generator
-EXCEL_MAKER_PATH = $(TEST_PATH)/excel_maker.py
-GRAPH_MAKER_PATH = $(TEST_PATH)/graph_maker.py
 
 all: $(TARGET)
 
@@ -73,21 +71,6 @@ time: $(TARGET)
 		{ time ./$(TARGET) < $$input > /dev/null; } 2>&1 | grep -E 'real|user|sys';\
 	done
 	@$(MAKE) -s clean
-
-graph:
-	@if [ -z "$(t)" ]; then \
-		echo "Usage: make graph t = <test_name_w/o_file_extension>"; \
-	else \
-	python3 $(GRAPH_MAKER_PATH) $(TEST_PATH)/$(t); \
-	fi
-
-excel: $(TARGET)
-	@if [ -z "$(r)" ] || [ -z "$(s)" ] || [ -z "$(c)" ] || [ -z "$(l)" ]; then \
-		echo "Usage: make excel r = <num_runs> s = <stations_exp> c = <use_connections> l = <lines_exponent>"; \
-	else \
-		python3 $(EXCEL_MAKER_PATH) $(r) $(s) $(c) $(l); \
-	fi
-	@$(MAKE) -s rm clean
 
 clean:
 	@rm -f $(TARGET)
