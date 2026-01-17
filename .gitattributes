@@ -1,0 +1,5 @@
+# Make GitHub's language stats reflect the C++ solution
+*.cpp linguist-language=C++
+src/Makefile linguist-vendored
+tests/** linguist-vendored
+*.pdf linguist-documentation
